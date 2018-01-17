@@ -4,6 +4,7 @@ var Book = require('../models/book')
 var csrf = require('csurf');
 
 var csrfProtection = csrf();
+router.use(csrfProtection);
 
 router.get('/', function(req, res, next) {
   Book.find(function (err, docs) {
@@ -18,5 +19,9 @@ router.get('/', function(req, res, next) {
 
 router.get('/user/signup',function(req, res, next) {
     res.render('user/signup', {csrfToken: req.csrfToken()});
+});
+
+router.post('/user/signup', function (req, res, next) {
+    res.redirect('/');
 });
 module.exports = router;
