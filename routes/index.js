@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-var Book = require('../models/book')
+var Cart = require('../models/cart');
+var Book = require('../models/book');
 
 router.get('/', function (req, res, next) {
     Book.find(function (err, docs) {
@@ -16,7 +17,17 @@ router.get('/', function (req, res, next) {
 
 router.get('/add-to-cart/:id', function (req, res, next) {
     var bookId = req.params.id;
-    
+    var cart = new Cart(req.session.cart ? req.session.cart : {});
+
+    Book.findById(bookId, function (err, book) {
+       if(err){
+           return res.redirect('/');
+       }
+       cart.add(book, book.id);
+       req.session.cart = cart;
+       console.log(req.session.cart);
+       res.redirect('/');
+    });
 });
 
 module.exports = router;
