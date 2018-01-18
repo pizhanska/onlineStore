@@ -13,4 +13,10 @@ router.get('/', function (req, res, next) {
         res.render('shop/index', {title: 'Book Store', books: bookChunks});
     });
 });
+
+router.get('/add-to-cart/:id', function (req, res, next) {
+    var bookId = req.params.id;
+    
+});
+
 module.exports = router;
