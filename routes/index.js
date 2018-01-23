@@ -32,7 +32,32 @@ router.get('/add-to-cart/:id', function (req, res, next) {
     });
 });
 
+router.get('/reduce/:id', function (req, res, next) {
+    var bookId = req.params.id;
+    var cart = new Cart(req.session.cart ?  req.session.cart : {});
 
+    cart.reduceByOne(bookId);
+    req.session.cart = cart;
+    res.redirect('/shopping-cart');
+});
+
+router.get('/remove/:id', function (req, res, next) {
+    var bookId = req.params.id;
+    var cart = new Cart(req.session.cart ?  req.session.cart : {});
+
+    cart.removeAll(bookId);
+    req.session.cart = cart;
+    res.redirect('/shopping-cart');
+});
+
+router.get('/increase/:id', function (req, res, next) {
+    var bookId = req.params.id;
+    var cart = new Cart(req.session.cart ?  req.session.cart : {});
+
+    cart.increaseByOne(bookId);
+    req.session.cart = cart;
+    res.redirect('/shopping-cart');
+});
 
 router.get('/shopping-cart', function (req, res, next) {
     if(!req.session.cart){
